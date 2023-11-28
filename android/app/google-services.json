@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "253215509115",
+    "project_id": "atividade-extracurricular",
+    "storage_bucket": "atividade-extracurricular.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253215509115:android:53aface4a6fd44cc54b0de",
+        "android_client_info": {
+          "package_name": "com.example.controle_atividade_extracurricular"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9OrolFsjjNTYsfXZgK6ySndbvVG8JX4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
