@@ -4,7 +4,6 @@ import 'package:controle_atividade_extracurricular/app/modules/auth/register/reg
 import 'package:controle_atividade_extracurricular/app/provider/app_user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../../../../core/widgets/bus_logo.dart';
 import '../../splash/splash_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -88,6 +87,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _submitForm() async {
+    setState(() {
+      _isLoading = true;
+    });
     final _isValid = _formKey.currentState!.validate();
     if (!_isValid) {
       return;
@@ -98,7 +100,6 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const SplashPage()));
     } on FirebaseAuthException catch (e) {
-      print('Erro do Firebase: ${e.code} - ${e.message}');
       String errorMessage;
 
       switch (e.code) {

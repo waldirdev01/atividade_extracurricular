@@ -1,5 +1,8 @@
+import 'package:controle_atividade_extracurricular/app/modules/admin/home/home_page.dart';
 import 'package:controle_atividade_extracurricular/app/modules/auth/register/register_page.dart';
+import 'package:controle_atividade_extracurricular/app/modules/pollo/pollo_home_page.dart';
 import 'package:controle_atividade_extracurricular/app/modules/splash/splash_page.dart';
+import 'package:controle_atividade_extracurricular/app/widgets/atividade_extracurricular_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'modules/auth/login/login_page.dart';
@@ -15,9 +18,11 @@ class AppWidget extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => AppUserProvider()),
         ],
         child: MaterialApp(
+          locale: const Locale('pt', 'BR'),
           theme: customTheme,
           debugShowCheckedModeBanner: false,
-          home: const LoginPage(),
+          home: AtividadeExtracurricularForm(),
+          title: 'Controle de Atividades Extracurriculares',
         ));
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:async';
+import 'package:controle_atividade_extracurricular/app/modules/admin/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/app_user.dart';
@@ -41,7 +42,10 @@ class _SplashPageState extends State<SplashPage> {
           //transfer
           break;
         case UserType.admin:
-          //home
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+              (route) => false);
           break;
       }
     } else {}
