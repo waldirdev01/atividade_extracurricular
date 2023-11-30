@@ -259,7 +259,6 @@ class _AtividadeExtracurricularFormState
                   items: ['No bloco de assinatura', 'B', 'C', 'D', 'E']
                       .map((label) => DropdownMenuItem(
                             child: Text(label),
-                            value: label,
                           ))
                       .toList(),
                   onChanged: (value) {
