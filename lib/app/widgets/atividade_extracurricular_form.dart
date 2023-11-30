@@ -152,8 +152,8 @@ class _AtividadeExtracurricularFormState
                           borderRadius: BorderRadius.all(Radius.circular(16)))),
                   items: ['Matutino', 'Vespertino']
                       .map((label) => DropdownMenuItem(
-                            child: Text(label),
                             value: label,
+                            child: Text(label),
                           ))
                       .toList(),
                   onChanged: (value) {
@@ -188,6 +188,9 @@ class _AtividadeExtracurricularFormState
                     if (value!.isEmpty) {
                       return 'Informe o total de ônibus';
                     }
+                    if (int.tryParse(value) == null) {
+                      return 'Por favor, insira um número válido';
+                    }
                     return null;
                   },
                 ),
@@ -202,6 +205,9 @@ class _AtividadeExtracurricularFormState
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Informe o total de alunos';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'Por favor, insira um número válido';
                     }
                     return null;
                   },
@@ -218,6 +224,9 @@ class _AtividadeExtracurricularFormState
                     if (value!.isEmpty) {
                       return 'Informe o total de professores';
                     }
+                    if (int.tryParse(value) == null) {
+                      return 'Por favor, insira um número válido';
+                    }
                     return null;
                   },
                 ),
@@ -232,6 +241,9 @@ class _AtividadeExtracurricularFormState
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Informe o percurso total';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'Por favor, insira um número válido';
                     }
                     return null;
                   },

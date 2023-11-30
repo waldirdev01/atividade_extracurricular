@@ -7,10 +7,6 @@ class AtividadeExtracurricularProvider extends ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   late CollectionReference atividadesRef;
 
-  AtividadeExtracurricularProvider() {
-    atividadesRef = _db.collection('atividades');
-  }
-
   Future<void> addAtividade(AtividadeExtracurricular atividade) async {
     atividadesRef = _db.collection('atividades');
     await atividadesRef.add(atividade.toJson());

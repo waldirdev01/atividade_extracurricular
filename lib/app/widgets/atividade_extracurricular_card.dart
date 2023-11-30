@@ -1,95 +1,106 @@
+import 'package:controle_atividade_extracurricular/app/models/atividade_extracurricular.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AtividadeExtracurricularCard extends StatelessWidget {
-  const AtividadeExtracurricularCard({super.key});
+  final AtividadeExtracurricular atividade;
+  const AtividadeExtracurricularCard({super.key, required this.atividade});
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       child: ExpansionTile(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'DATA: 00/00/0000',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              'DATA: ${DateFormat('dd/MM/yyyy').format(atividade.data)}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Text(
-              'NOME DA ESCOLA',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              'NOME DA ESCOLA: ${atividade.nomeEscola}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Text(
-              'EVENTO: NOME DA ATIVIDADE',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              'EVENTO: ${atividade.nomeAtividade}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
         ),
         children: [
           Padding(
-            padding: EdgeInsets.all(14.0),
+            padding: const EdgeInsets.all(14.0),
             child: Align(
               alignment: Alignment.bottomLeft,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'LOCAL: NOME DO LOCAL',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    'LOCAL: ${atividade.local}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    'TURNO: MANHÃ',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    'TURNO: ${atividade.turno}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    'HORÁRIO: 00:00',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    'HORÁRIO: ${atividade.horario}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    'TOTAL DE ÔNIBUS: 00',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    'TOTAL DE ÔNIBUS: ${atividade.totalOnibus}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    'TOTAL DE ALUNOS: 00',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    'TOTAL DE ALUNOS: ${atividade.totalAlunos}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    'TOTAL DE PROFESSORES: 00',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    'TOTAL DE PROFESSORES: ${atividade.totalProfessores}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    'PERCURSO TOTAL POR ÔNIBUS: 00 KM (IDA) + 00 KM (VOLTA) = 00 KM (TOTAL)',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    'PERCURSO TOTAL POR ÔNIBUS: ${atividade.percursoTotal} km (ida e volta).',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    'STATUS: 00000000',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    'STATUS: ${atividade.status}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ],
