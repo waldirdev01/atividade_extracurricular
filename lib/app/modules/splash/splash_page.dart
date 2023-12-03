@@ -2,6 +2,8 @@
 
 import 'dart:async';
 import 'package:controle_atividade_extracurricular/app/modules/admin/home/home_page.dart';
+import 'package:controle_atividade_extracurricular/app/modules/pollo/pollo_home_page.dart';
+import 'package:controle_atividade_extracurricular/app/widgets/atividade_extracurricular_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/app_user.dart';
@@ -36,7 +38,10 @@ class _SplashPageState extends State<SplashPage> {
           loading = false;
           break;
         case UserType.pollo:
-          //navegar para Pollo
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => PolloHomePage()),
+              (route) => false);
           break;
         case UserType.transfer:
           //transfer

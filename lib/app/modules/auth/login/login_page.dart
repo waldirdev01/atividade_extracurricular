@@ -100,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const SplashPage()));
     } on FirebaseAuthException catch (e) {
+      print(e.code);
       String errorMessage;
 
       switch (e.code) {
@@ -140,6 +141,11 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.red,
         ),
       );
+    }
+    finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 

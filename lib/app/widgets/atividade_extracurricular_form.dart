@@ -1,7 +1,10 @@
+import 'package:controle_atividade_extracurricular/app/models/app_user.dart';
+import 'package:controle_atividade_extracurricular/app/modules/pollo/pollo_home_page.dart';
 import 'package:controle_atividade_extracurricular/app/provider/atividade_extracurricular_provider.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../models/atividade_extracurricular.dart';
+import '../provider/app_user_provider.dart';
 
 class AtividadeExtracurricularForm extends StatefulWidget {
   @override
@@ -11,9 +14,27 @@ class AtividadeExtracurricularForm extends StatefulWidget {
 
 class _AtividadeExtracurricularFormState
     extends State<AtividadeExtracurricularForm> {
+  List<String> studentList = [];
+  late AppUser appUser;
   DateTime _selectedDate = DateTime.now();
   AtividadeExtracurricularProvider atividadeExtracurricularProvider =
       AtividadeExtracurricularProvider();
+  void _getCurrentUser() async {
+    final provider = Provider.of<AppUserProvider>(context, listen: false);
+    final currentUser = await provider.getCurrentUser();
+    if (currentUser != null) {
+      setState(() {
+        appUser = currentUser;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -31,21 +52,32 @@ class _AtividadeExtracurricularFormState
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      studentList = _studentsController.text
+          .split(',')
+          .map((student) => student.trim())
+          .where((student) => student.isNotEmpty)
+          .toList();
       final atividade = AtividadeExtracurricular(
-        data: _selectedDate,
-        nomeEscola: _nomeEscolaController.text,
-        nomeAtividade: _nomeAtividadeController.text,
-        local: _localController.text,
-        turno: _turnoController.text,
-        horario: _horarioController.text,
-        totalOnibus: int.parse(_totalOnibusController.text),
-        totalAlunos: int.parse(_totalAlunosController.text),
-        totalProfessores: int.parse(_totalProfessoresController.text),
-        percursoTotal: int.parse(_percursoTotalController.text),
-        status: _status,
-      );
+          data: _selectedDate,
+          nomeEscola: _nomeEscolaController.text,
+          nomeAtividade: _nomeAtividadeController.text,
+          local: _localController.text,
+          turno: _turnoController.text,
+          horario: _horarioController.text,
+          totalOnibus: int.parse(_totalOnibusController.text),
+          totalAlunos: int.parse(_totalAlunosController.text),
+          totalProfessores: int.parse(_totalProfessoresController.text),
+          percursoTotal: int.parse(_percursoTotalController.text),
+          status:
+              _statusController.text.isEmpty ? _status : _statusController.text,
+          userMail: appUser.email,
+          students: studentList);
       await atividadeExtracurricularProvider.addAtividade(atividade);
-      Navigator.of(context).pop(atividade);
+      _cleanController();
+
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const PolloHomePage()));
     }
   }
 
@@ -60,7 +92,9 @@ class _AtividadeExtracurricularFormState
   final _totalAlunosController = TextEditingController();
   final _totalProfessoresController = TextEditingController();
   final _percursoTotalController = TextEditingController();
-  String _status = 'No bloco de assinatura';
+  final _studentsController = TextEditingController();
+  final _statusController = TextEditingController();
+  String _status = 'Aguardando Diego';
   String _turno = 'Matutino';
 
   @override
@@ -75,6 +109,19 @@ class _AtividadeExtracurricularFormState
     _totalProfessoresController.dispose();
     _percursoTotalController.dispose();
     super.dispose();
+  }
+
+  void _cleanController() {
+    _nomeEscolaController.clear();
+    _nomeAtividadeController.clear();
+    _localController.clear();
+    _turnoController.clear();
+    _horarioController.clear();
+    _totalOnibusController.clear();
+    _totalAlunosController.clear();
+    _totalProfessoresController.clear();
+    _percursoTotalController.clear();
+    _statusController.clear();
   }
 
   @override
@@ -256,8 +303,14 @@ class _AtividadeExtracurricularFormState
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16))),
                   ),
-                  items: ['No bloco de assinatura', 'B', 'C', 'D', 'E']
+                  items: [
+                    'Aguardando Diego',
+                    'No bloco de assinatura',
+                    'GCOTE',
+                    'TCB',
+                  ]
                       .map((label) => DropdownMenuItem(
+                            value: label,
                             child: Text(label),
                           ))
                       .toList(),
@@ -265,6 +318,43 @@ class _AtividadeExtracurricularFormState
                     setState(() {
                       _status = value!;
                     });
+                  },
+                ),
+                _status == 'TCB'
+                    ? Container(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        child: TextFormField(
+                          controller: _statusController,
+                          decoration: const InputDecoration(
+                              labelText: 'Código da TCB',
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(16)))),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Informe o código';
+                            }
+                            return null;
+                          },
+                        ),
+                      )
+                    : const SizedBox(
+                        height: 8,
+                      ),
+                TextFormField(
+                  controller: _studentsController,
+                  decoration: const InputDecoration(
+                    labelText: 'Lista de Estudantes',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Informe a lista de estudantes';
+                    }
+
+                    return null;
                   },
                 ),
                 const SizedBox(height: 16),

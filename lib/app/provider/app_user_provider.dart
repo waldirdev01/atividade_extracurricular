@@ -23,7 +23,7 @@ class AppUserProvider with ChangeNotifier {
     return _user;
   }
 
-  final stopwatch = Stopwatch()..start();
+
 
   Future<AppUser?> signInWithEmailAndPassword(
       String email, String password) async {

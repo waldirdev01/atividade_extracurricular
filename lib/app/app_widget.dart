@@ -24,7 +24,7 @@ class AppWidget extends StatelessWidget {
           locale: const Locale('pt', 'BR'),
           theme: customTheme,
           debugShowCheckedModeBanner: false,
-          home: PolloHomePage(),
+          home: LoginPage(),
           title: 'Controle de Atividades Extracurriculares',
         ));
   }

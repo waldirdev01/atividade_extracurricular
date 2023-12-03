@@ -11,24 +11,28 @@ class AtividadeExtracurricular {
   final int totalProfessores;
   final int percursoTotal;
   final String status;
+  final String userMail;
+  final List<String> students;
 
-  AtividadeExtracurricular({
-    this.id,
-    required this.data,
-    required this.nomeEscola,
-    required this.nomeAtividade,
-    required this.local,
-    required this.turno,
-    required this.horario,
-    required this.totalOnibus,
-    required this.totalAlunos,
-    required this.totalProfessores,
-    required this.percursoTotal,
-    required this.status,
-  });
+  AtividadeExtracurricular(
+      {this.id,
+      required this.userMail,
+      required this.data,
+      required this.nomeEscola,
+      required this.nomeAtividade,
+      required this.local,
+      required this.turno,
+      required this.horario,
+      required this.totalOnibus,
+      required this.totalAlunos,
+      required this.totalProfessores,
+      required this.percursoTotal,
+      required this.status,
+      this.students = const []});
 
   Map<String, dynamic> toJson() {
     return {
+      'userMail': userMail,
       'data':
           data.toIso8601String(), // Converte DateTime para uma string ISO 8601
       'nomeEscola': nomeEscola,
@@ -41,6 +45,7 @@ class AtividadeExtracurricular {
       'totalProfessores': totalProfessores,
       'percursoTotal': percursoTotal,
       'status': status,
+      'students': students,
     };
   }
 
@@ -48,6 +53,7 @@ class AtividadeExtracurricular {
       String id, Map<String, dynamic> json) {
     return AtividadeExtracurricular(
       id: id,
+      userMail: json['userMail'] ?? '',
       data: DateTime.parse(
           json['data']), // Converte a string ISO 8601 para DateTime
       nomeEscola: json['nomeEscola'],
@@ -60,6 +66,7 @@ class AtividadeExtracurricular {
       totalProfessores: json['totalProfessores'],
       percursoTotal: json['percursoTotal'],
       status: json['status'],
+      students: List<String>.from(json['students'] ?? []),
     );
   }
 }

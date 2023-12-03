@@ -25,14 +25,15 @@ class AtividadeExtracurricularProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<AtividadeExtracurricular>> getAtividades() async {
+  Future<void> getAtividades() async {
     atividadesRef = _db.collection('atividades');
     final querySnapshot = await atividadesRef.get();
     atividades = querySnapshot.docs
         .map((doc) => AtividadeExtracurricular.fromJson(
             doc.id, doc.data() as Map<String, dynamic>))
         .toList();
+    atividades.sort((a, b) => a.data.compareTo(b.data));
     notifyListeners();
-    return atividades;
+
   }
 }
