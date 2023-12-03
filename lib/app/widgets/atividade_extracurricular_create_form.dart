@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:controle_atividade_extracurricular/app/models/app_user.dart';
 import 'package:controle_atividade_extracurricular/app/modules/pollo/pollo_home_page.dart';
 import 'package:controle_atividade_extracurricular/app/provider/atividade_extracurricular_provider.dart';
@@ -6,14 +8,16 @@ import 'package:provider/provider.dart';
 import '../models/atividade_extracurricular.dart';
 import '../provider/app_user_provider.dart';
 
-class AtividadeExtracurricularForm extends StatefulWidget {
+class AtividadeExtracurricularCreateForm extends StatefulWidget {
+  const AtividadeExtracurricularCreateForm({super.key});
+
   @override
-  _AtividadeExtracurricularFormState createState() =>
-      _AtividadeExtracurricularFormState();
+  _AtividadeExtracurricularCreateFormState createState() =>
+      _AtividadeExtracurricularCreateFormState();
 }
 
-class _AtividadeExtracurricularFormState
-    extends State<AtividadeExtracurricularForm> {
+class _AtividadeExtracurricularCreateFormState
+    extends State<AtividadeExtracurricularCreateForm> {
   List<String> studentList = [];
   late AppUser appUser;
   DateTime _selectedDate = DateTime.now();
@@ -62,7 +66,7 @@ class _AtividadeExtracurricularFormState
           nomeEscola: _nomeEscolaController.text,
           nomeAtividade: _nomeAtividadeController.text,
           local: _localController.text,
-          turno: _turnoController.text,
+          turno: _turnoController.text == '' ? _turno : _turnoController.text,
           horario: _horarioController.text,
           totalOnibus: int.parse(_totalOnibusController.text),
           totalAlunos: int.parse(_totalAlunosController.text),
@@ -73,7 +77,6 @@ class _AtividadeExtracurricularFormState
           userMail: appUser.email,
           students: studentList);
       await atividadeExtracurricularProvider.addAtividade(atividade);
-      _cleanController();
 
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(
@@ -108,20 +111,9 @@ class _AtividadeExtracurricularFormState
     _totalAlunosController.dispose();
     _totalProfessoresController.dispose();
     _percursoTotalController.dispose();
+    _studentsController.dispose();
+    _statusController.dispose();
     super.dispose();
-  }
-
-  void _cleanController() {
-    _nomeEscolaController.clear();
-    _nomeAtividadeController.clear();
-    _localController.clear();
-    _turnoController.clear();
-    _horarioController.clear();
-    _totalOnibusController.clear();
-    _totalAlunosController.clear();
-    _totalProfessoresController.clear();
-    _percursoTotalController.clear();
-    _statusController.clear();
   }
 
   @override
@@ -206,6 +198,7 @@ class _AtividadeExtracurricularFormState
                   onChanged: (value) {
                     setState(() {
                       _turno = value!;
+                      print(_turno);
                     });
                   },
                 ),
@@ -349,11 +342,14 @@ class _AtividadeExtracurricularFormState
                       borderRadius: BorderRadius.all(Radius.circular(16)),
                     ),
                   ),
+                  keyboardType: TextInputType
+                      .multiline, // Permite entrada de texto em múltiplas linhas
+                  maxLines:
+                      null, // Define o número máximo de linhas para infinito
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Informe a lista de estudantes';
                     }
-
                     return null;
                   },
                 ),

@@ -1,6 +1,6 @@
 class AtividadeExtracurricular {
   final String? id;
-  final DateTime data;
+  DateTime data;
   final String nomeEscola;
   final String nomeAtividade;
   final String local;
@@ -12,7 +12,7 @@ class AtividadeExtracurricular {
   final int percursoTotal;
   final String status;
   final String userMail;
-  final List<String> students;
+  List<String> students;
 
   AtividadeExtracurricular(
       {this.id,

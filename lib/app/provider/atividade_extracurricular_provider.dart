@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class AtividadeExtracurricularProvider extends ChangeNotifier {
   List<AtividadeExtracurricular> atividades = [];
+  AtividadeExtracurricular? atividade;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   late CollectionReference atividadesRef;
 
@@ -22,6 +23,7 @@ class AtividadeExtracurricularProvider extends ChangeNotifier {
   Future<void> deleteAtividade(AtividadeExtracurricular atividade) async {
     atividadesRef = _db.collection('atividades');
     await atividadesRef.doc(atividade.id).delete();
+    atividades.removeWhere((element) => element.id == atividade.id);
     notifyListeners();
   }
 
@@ -34,6 +36,15 @@ class AtividadeExtracurricularProvider extends ChangeNotifier {
         .toList();
     atividades.sort((a, b) => a.data.compareTo(b.data));
     notifyListeners();
+  }
 
+  Future<void> getAtividade(String id) async {
+    atividadesRef = _db.collection('atividades');
+    final querySnapshot = await atividadesRef.doc(id).get();
+    atividade = AtividadeExtracurricular.fromJson(
+        querySnapshot.id, querySnapshot.data() as Map<String, dynamic>);
+    atividade?.students.clear();
+    updateAtividade(atividade!);
+    notifyListeners();
   }
 }
