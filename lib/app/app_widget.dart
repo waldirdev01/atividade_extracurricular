@@ -1,6 +1,6 @@
 import 'package:controle_atividade_extracurricular/app/modules/admin/home/home_page.dart';
 import 'package:controle_atividade_extracurricular/app/modules/auth/register/register_page.dart';
-import 'package:controle_atividade_extracurricular/app/modules/pollo/pollo_home_page.dart';
+import 'package:controle_atividade_extracurricular/app/modules/pollo/atividades_list.dart';
 import 'package:controle_atividade_extracurricular/app/modules/splash/splash_page.dart';
 import 'package:controle_atividade_extracurricular/app/provider/atividade_extracurricular_provider.dart';
 import 'package:controle_atividade_extracurricular/app/widgets/atividade_extracurricular_create_form.dart';

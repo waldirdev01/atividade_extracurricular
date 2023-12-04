@@ -1,5 +1,5 @@
 import 'package:controle_atividade_extracurricular/app/modules/auth/login/login_page.dart';
-import 'package:controle_atividade_extracurricular/app/modules/pollo/pollo_home_page.dart';
+import 'package:controle_atividade_extracurricular/app/modules/pollo/atividades_list.dart';
 import 'package:controle_atividade_extracurricular/app/widgets/company_card.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +25,9 @@ class _HomePageState extends State<HomePage> {
               companyName: 'POLLO',
               onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                        builder: (context) => const PolloHomePage()),
+                        builder: (context) => const AtividadesList(
+                              company: 'POLLO',
+                            )),
                   )),
           const SizedBox(
             width: 20,
@@ -33,11 +35,13 @@ class _HomePageState extends State<HomePage> {
           CompanyCard(
               companyName: 'TRANSFER',
               onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const AtividadesList(
+                              company: 'TRANSFER',
+                            )),
                   )),
         ],
       )),
     );
   }
 }
-//TODO: 1. Criar a lista de atividadaes

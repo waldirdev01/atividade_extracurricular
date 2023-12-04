@@ -19,32 +19,36 @@ class AtividadeExtracurricularCard extends StatelessWidget {
           children: [
             Text(
               'DATA: ${DateFormat('dd/MM/yyyy').format(atividade.data)}',
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(atividade.company,
+                style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red)),
             const SizedBox(
               height: 8,
             ),
             Text(
               'NOME DA ESCOLA: ${atividade.nomeEscola}',
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 8,
             ),
             Text(
               'EVENTO: ${atividade.nomeAtividade}',
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 8,
             ),
             Text(
               'USUÁRIO: ${atividade.userMail}',
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -123,8 +127,8 @@ class AtividadeExtracurricularCard extends StatelessWidget {
                     ),
                     const Text(
                       'LISTA DE ESTUDANTES',
-                      style: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                     ListView.builder(

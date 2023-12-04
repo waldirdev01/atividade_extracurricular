@@ -1,6 +1,6 @@
 class AtividadeExtracurricular {
   final String? id;
-  DateTime data;
+  final DateTime data;
   final String nomeEscola;
   final String nomeAtividade;
   final String local;
@@ -13,9 +13,11 @@ class AtividadeExtracurricular {
   final String status;
   final String userMail;
   List<String> students;
+  final String company;
 
   AtividadeExtracurricular(
       {this.id,
+      required this.company,
       required this.userMail,
       required this.data,
       required this.nomeEscola,
@@ -35,6 +37,7 @@ class AtividadeExtracurricular {
       'userMail': userMail,
       'data':
           data.toIso8601String(), // Converte DateTime para uma string ISO 8601
+      'company': company,
       'nomeEscola': nomeEscola,
       'nomeAtividade': nomeAtividade,
       'local': local,
@@ -53,7 +56,8 @@ class AtividadeExtracurricular {
       String id, Map<String, dynamic> json) {
     return AtividadeExtracurricular(
       id: id,
-      userMail: json['userMail'] ?? '',
+      company: json['company'],
+      userMail: json['userMail'],
       data: DateTime.parse(
           json['data']), // Converte a string ISO 8601 para DateTime
       nomeEscola: json['nomeEscola'],

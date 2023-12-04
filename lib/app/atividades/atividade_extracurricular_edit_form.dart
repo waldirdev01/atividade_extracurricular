@@ -1,24 +1,40 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:controle_atividade_extracurricular/app/models/app_user.dart';
-import 'package:controle_atividade_extracurricular/app/modules/pollo/pollo_home_page.dart';
+import 'package:controle_atividade_extracurricular/app/modules/pollo/atividades_list.dart';
 import 'package:controle_atividade_extracurricular/app/provider/atividade_extracurricular_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/atividade_extracurricular.dart';
 import '../provider/app_user_provider.dart';
 
-class AtividadeExtracurricularCreateForm extends StatefulWidget {
-  const AtividadeExtracurricularCreateForm({super.key});
+class AtividadeExtracurricularEditForm extends StatefulWidget {
+  AtividadeExtracurricular atividadeExtracurricular;
+  AtividadeExtracurricularEditForm(
+      {super.key, required this.atividadeExtracurricular});
 
   @override
-  _AtividadeExtracurricularCreateFormState createState() =>
-      _AtividadeExtracurricularCreateFormState();
+  _AtividadeExtracurricularEditFormState createState() =>
+      _AtividadeExtracurricularEditFormState();
 }
 
-class _AtividadeExtracurricularCreateFormState
-    extends State<AtividadeExtracurricularCreateForm> {
+class _AtividadeExtracurricularEditFormState
+    extends State<AtividadeExtracurricularEditForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _nomeEscolaController = TextEditingController();
+  final _nomeAtividadeController = TextEditingController();
+  final _localController = TextEditingController();
+  final _horarioController = TextEditingController();
+  final _totalOnibusController = TextEditingController();
+  final _totalAlunosController = TextEditingController();
+  final _totalProfessoresController = TextEditingController();
+  final _percursoTotalController = TextEditingController();
+  final _studentsController = TextEditingController();
+  final _statusController = TextEditingController();
+  final String _status = 'Aguardando Diego';
+  String _turno = 'Matutino';
   List<String> studentList = [];
+  String _company = 'POLLO';
   late AppUser appUser;
   DateTime _selectedDate = DateTime.now();
   AtividadeExtracurricularProvider atividadeExtracurricularProvider =
@@ -37,6 +53,25 @@ class _AtividadeExtracurricularCreateFormState
   void initState() {
     super.initState();
     _getCurrentUser();
+    _selectedDate = widget.atividadeExtracurricular.data;
+    _nomeEscolaController.text = widget.atividadeExtracurricular.nomeEscola;
+    _company = widget.atividadeExtracurricular.company;
+    _nomeAtividadeController.text =
+        widget.atividadeExtracurricular.nomeAtividade;
+    _localController.text = widget.atividadeExtracurricular.local;
+    _turno = widget.atividadeExtracurricular.turno;
+    _horarioController.text = widget.atividadeExtracurricular.horario;
+    _totalOnibusController.text =
+        widget.atividadeExtracurricular.totalOnibus.toString();
+    _totalAlunosController.text =
+        widget.atividadeExtracurricular.totalAlunos.toString();
+    _totalProfessoresController.text =
+        widget.atividadeExtracurricular.totalProfessores.toString();
+    _percursoTotalController.text =
+        widget.atividadeExtracurricular.percursoTotal.toString();
+    _statusController.text = widget.atividadeExtracurricular.status;
+    _studentsController.text =
+        widget.atividadeExtracurricular.students.join(', ');
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -62,50 +97,38 @@ class _AtividadeExtracurricularCreateFormState
           .where((student) => student.isNotEmpty)
           .toList();
       final atividade = AtividadeExtracurricular(
+          id: widget.atividadeExtracurricular.id,
+          company: _company,
+          userMail: appUser.email,
           data: _selectedDate,
           nomeEscola: _nomeEscolaController.text,
           nomeAtividade: _nomeAtividadeController.text,
           local: _localController.text,
-          turno: _turnoController.text == '' ? _turno : _turnoController.text,
+          turno: _turno,
           horario: _horarioController.text,
           totalOnibus: int.parse(_totalOnibusController.text),
           totalAlunos: int.parse(_totalAlunosController.text),
           totalProfessores: int.parse(_totalProfessoresController.text),
           percursoTotal: int.parse(_percursoTotalController.text),
-          status:
-              _statusController.text.isEmpty ? _status : _statusController.text,
-          userMail: appUser.email,
+          status: _statusController.text,
           students: studentList);
-      await atividadeExtracurricularProvider.addAtividade(atividade);
+      await atividadeExtracurricularProvider.updateAtividade(atividade);
 
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const PolloHomePage()));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => AtividadesList(
+                    company: atividade.company,
+                  )),
+          (route) => false);
     }
   }
-
-  final _formKey = GlobalKey<FormState>();
-
-  final _nomeEscolaController = TextEditingController();
-  final _nomeAtividadeController = TextEditingController();
-  final _localController = TextEditingController();
-  final _turnoController = TextEditingController();
-  final _horarioController = TextEditingController();
-  final _totalOnibusController = TextEditingController();
-  final _totalAlunosController = TextEditingController();
-  final _totalProfessoresController = TextEditingController();
-  final _percursoTotalController = TextEditingController();
-  final _studentsController = TextEditingController();
-  final _statusController = TextEditingController();
-  String _status = 'Aguardando Diego';
-  String _turno = 'Matutino';
 
   @override
   void dispose() {
     _nomeEscolaController.dispose();
     _nomeAtividadeController.dispose();
     _localController.dispose();
-    _turnoController.dispose();
     _horarioController.dispose();
     _totalOnibusController.dispose();
     _totalAlunosController.dispose();
@@ -120,7 +143,7 @@ class _AtividadeExtracurricularCreateFormState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastro de Atividade Extracurricular'),
+        title: const Text('Edic de Atividade Extracurricular'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -139,6 +162,25 @@ class _AtividadeExtracurricularCreateFormState
                     trailing: const Icon(Icons.calendar_today),
                     onTap: () => _selectDate(context),
                   ),
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  value: _company,
+                  decoration: const InputDecoration(
+                      labelText: 'Turno',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(16)))),
+                  items: ['POLLO', 'TRANSFER']
+                      .map((label) => DropdownMenuItem(
+                            value: label,
+                            child: Text(label),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _company = value!;
+                    });
+                  },
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
@@ -198,7 +240,6 @@ class _AtividadeExtracurricularCreateFormState
                   onChanged: (value) {
                     setState(() {
                       _turno = value!;
-                      print(_turno);
                     });
                   },
                 ),
@@ -309,7 +350,7 @@ class _AtividadeExtracurricularCreateFormState
                       .toList(),
                   onChanged: (value) {
                     setState(() {
-                      _status = value!;
+                      _statusController.text = value!;
                     });
                   },
                 ),

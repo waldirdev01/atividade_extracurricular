@@ -10,8 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
-class PolloHomePage extends StatelessWidget {
-  const PolloHomePage({super.key});
+class AtividadesList extends StatelessWidget {
+  final String company;
+  const AtividadesList({super.key, required this.company});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class PolloHomePage extends StatelessWidget {
     final user = userProvider.user;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pollo Home Page'),
+        title: Text('Atividades da $company'),
         actions: [
           user?.type == UserType.admin
               ? IconButton(
@@ -52,7 +53,7 @@ class PolloHomePage extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Consumer<AtividadeExtracurricularProvider>(
             builder: (_, atvidadeExt, child) {
-          atvidadeExt.getAtividades();
+          atvidadeExt.getAtividadesByCompany(company);
           List<AtividadeExtracurricular> _atividades = atvidadeExt.atividades;
           return ListView.builder(
             itemCount: _atividades.length,

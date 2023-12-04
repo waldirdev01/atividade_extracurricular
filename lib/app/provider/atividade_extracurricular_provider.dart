@@ -43,8 +43,23 @@ class AtividadeExtracurricularProvider extends ChangeNotifier {
     final querySnapshot = await atividadesRef.doc(id).get();
     atividade = AtividadeExtracurricular.fromJson(
         querySnapshot.id, querySnapshot.data() as Map<String, dynamic>);
-    atividade?.students.clear();
-    updateAtividade(atividade!);
+
+    notifyListeners();
+  }
+
+  Future<void> getAtividadesByCompany(String company) async {
+    atividadesRef = _db.collection('atividades');
+    final querySnapshot = await atividadesRef
+        .where('company', isEqualTo: company)
+        .get()
+        .catchError((e) =>
+            // ignore: invalid_return_type_for_catch_error
+            ScaffoldMessenger(child: SnackBar(content: Text(e.toString()))));
+    atividades = querySnapshot.docs
+        .map((doc) => AtividadeExtracurricular.fromJson(
+            doc.id, doc.data() as Map<String, dynamic>))
+        .toList();
+    atividades.sort((a, b) => a.data.compareTo(b.data));
     notifyListeners();
   }
 }
